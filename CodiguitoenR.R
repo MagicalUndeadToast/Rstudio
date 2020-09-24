@@ -5,7 +5,7 @@ rm(list = ls()) #limpia variable
 graphics.off() #limpia graficos
 cat("\014") #limpia ventana comandos
 
-setwd("D:/MIF/Analisis de Riesgo Financiero/Proyecto DE ARF/Codigo de R")
+setwd("~/Rstudio")
 
 # Cargar Librerias --------------------------------------------------------
 
