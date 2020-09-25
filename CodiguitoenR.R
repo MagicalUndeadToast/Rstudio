@@ -210,4 +210,4 @@ ValueofAyL(CHFToUSD,USrates[1,1],dim(CHFToUSD)[1])
 Cuota(10000,0.05,24)
 
 # Como hacer la simulacion de las diversas carteras del paper.
-#caca
+#caca seca
