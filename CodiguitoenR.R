@@ -5,11 +5,7 @@ rm(list = ls()) #limpia variable
 graphics.off() #limpia graficos
 cat("\014") #limpia ventana comandos
 
-<<<<<<< HEAD
 setwd("~/GitHub/Rstudio")
-=======
-#setwd("~/Rstudio")
->>>>>>> bd086d9215c1840ba17ff8ebe46cea12bf429170
 
 # Cargar Librerias --------------------------------------------------------
 
