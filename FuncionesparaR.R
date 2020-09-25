@@ -37,6 +37,7 @@ OverallDur <- function(AssetoLiabilityD,AssetoLiabilityF,Rd,Rf,n,AoL,S){
   Aux=0
   Aux= (ValueofAyL(AssetoLiabilityD,Rd,n)*MacaulayDuration(AssetoLiabilityD,Rd,n))/AoL + 
     (S*ValueofAyL(AssetoLiabilityF,Rf,n)*MacaulayDuration(AssetoLiabilityF,Rf,n))/AoL
+  return(Aux)
 }
 
 # STD Standard Error por los loles.
@@ -46,6 +47,8 @@ std <- function(x) sd(x)/sqrt(length(x))
 # Cuota de Bono Installment.
 
 Cuota <- function(MontoCredito,r,Meses){
-  MontoCredito*((1+r)^Meses)*r/((1+r)^Meses-1)*matrix(1,Meses,1)
+  Aux=0
+  Aux=MontoCredito*((1+r)^Meses)*r/((1+r)^Meses-1)*matrix(1,Meses,1)
+  return(Aux)
 }
 
