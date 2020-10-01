@@ -279,7 +279,7 @@ for (i in 1:7) {
   TotalLiaDE[i]<-DELia[i]*ExDEMUSD[1,i]+USLia[i]
 }
 
-
+LiaConv(Duration,DrUS)
 
 
 

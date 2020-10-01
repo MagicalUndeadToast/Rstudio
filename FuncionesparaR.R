@@ -74,3 +74,11 @@ LiaValue <- function(Actual_Value,Duration_Matrix,Rates_Matirx){
   return(Aux)
 }
 
+# Liabilitys Convexityes.
+LiaConv <- function(Duration_Matrix,Rates_Matirx){
+  Aux=matrix(0,1,length(Duration_Matrix))
+  for (i in 1:length(Duration_Matrix)) {
+    Aux[i]<-(Duration_Matrix[i]*(Duration_Matrix[i]+1))/(2*(1+Rates_Matirx[i])^2)
+  }
+  return(Aux)
+}
