@@ -210,52 +210,52 @@ ValueofAyL(CHFToUSD,USrates[1,1],dim(CHFToUSD)[1])
 # Asumimos Bonos cupones ceros para los pasivos, con valor cara de
 # 100.000 en el caso domestico y 200.000 en el caso internacional.
 
-Balanceo<-c("1984-02-06","1984-05-16","1985-10-01","1986-02-06","1986-12-03","1987-02-25","1987-03-11")
+Balance<-c("1984-02-06","1984-05-16","1985-10-01","1986-02-06","1986-12-03","1987-02-25","1987-03-11")
 
 #Duraciones
-Dias<-c(100, 503, 128, 300, 84, 14,0)
-Años<-Dias/365
-Duracion<-matrix(0,1,7)
-aux=sum(Años)
+Days<-c(100, 503, 128, 300, 84, 14,0)
+Years<-Days/365
+Duration<-matrix(0,1,7)
+aux=sum(Years)
 for (i in 1:6) {
-  Duracion[i]<-aux
-  aux=aux-Años[i]
+  Duration[i]<-aux
+  aux=aux-Years[i]
 }
 
 #Extraccion tasas USD
-DrUSD<-matrix(0,1,7)
+DrUS<-matrix(0,1,7)
 for (i in 1:7) {
-  DrUSD[1,i]<-SearchValue(USrates,Balanceo[i],"3Y")
+  DrUS[1,i]<-SearchValue(USrates,Balance[i],"3Y")
 }
 
 #Replicacion tabla Suiza
-ExCHUSD<-matrix(0,1,7)
+ExCHFUSD<-matrix(0,1,7)
 FrCH<-matrix(0,1,7)
 for (i in 1:7) {
-  ExCHUSD[1,i]<-SearchValue(CHFToUSD,Balanceo[i],"Exchange")
-  FrCH[1,i]<-SearchValue(CHrates,Balanceo[i],"3Y")
+  ExCHFUSD[1,i]<-SearchValue(CHFToUSD,Balance[i],"Exchange")
+  FrCH[1,i]<-SearchValue(CHrates,Balance[i],"3Y")
 }
 
 
 
 #Replicacion tabla Inglesa
-ExUKUSD<-matrix(0,1,7)
+ExGBPUSD<-matrix(0,1,7)
 FrUK<-matrix(0,1,7)
 for (i in 1:7) {
-  ExUKUSD[1,i]<-SearchValue(GBPToUSD,Balanceo[i],"Exchange")
-  FrUK[1,i]<-SearchValue(UKrates,Balanceo[i],"3Y")
+  ExGBPUSD[1,i]<-SearchValue(GBPToUSD,Balance[i],"Exchange")
+  FrUK[1,i]<-SearchValue(UKrates,Balance[i],"3Y")
 }
 
 
 #Replicacion tabla alemania
 
 ExDEMUSD<-matrix(0,1,7)
-FrDEM<-matrix(0,1,7)
+FrDE<-matrix(0,1,7)
 for (i in 1:7) {
-  ExDEMUSD[1,i]<-SearchValue(DEMToUSD,Balanceo[i],"Exchange")
-  FrDEM[1,i]<-SearchValue(DErates,Balanceo[i],"3Y")
+  ExDEMUSD[1,i]<-SearchValue(DEMToUSD,Balance[i],"Exchange")
+  FrDE[1,i]<-SearchValue(DErates,Balance[i],"3Y")
 }
 
 
-LiaValue(100000,Años,DrUSD)
+LiaValue(100000,Years,DrUS)
 

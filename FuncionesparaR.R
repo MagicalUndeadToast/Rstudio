@@ -63,12 +63,12 @@ SearchValue <- function(DataFrame,Row_Name,Col_Name){
 # Liabilitys Present Value.
 LiaValue <- function(Actual_Value,Years_Matrix,Rates_Matirx){
   Aux=matrix(0,1,length(Years_Matrix))
-  for (i in 1:(length(Years_Matrix)-1)) {
-    if (i==1) {
-      Aux[length(Years_Matrix)]<-Actual_Value/((1+Rates_Matirx[length(Years_Matrix)])^Years_Matrix[length(Years_Matrix)])
+  for (i in length(Years_Matrix):1) {
+    if (i==length(Years_Matrix)) {
+      Aux[i]<-Actual_Value/((1+Rates_Matirx[i])^Years_Matrix[i])
     }
-    else {
-      Aux[length(Years_Matrix)-i]<-Aux[length(Years_Matrix)-i+1]/((1+Rates_Matirx[length(Years_Matrix)-i])^Years_Matrix[length(Years_Matrix)-i])
+    else{
+      Aux[i]<-Aux[i+1]/((1+Rates_Matirx[i])^Years_Matrix[i])
     }
   }
   return(Aux)
