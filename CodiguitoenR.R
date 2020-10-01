@@ -207,8 +207,21 @@ DescriptiveStatistics <- rbind(DEGBPToUSD,DEDEMToUSD,DECHFToUSD,
 
 ValueofAyL(CHFToUSD,USrates[1,1],dim(CHFToUSD)[1])
 
-Cuota(10000,0.05,24)
+Balanceo<-c("1984-02-06","1984-05-16","1985-10-01","1986-02-06","1986-12-03","1987-02-25","1987-03-11")
 
-# Como hacer la simulacion de las diversas carteras del paper.
+#Replicacion tabla Suiza
+ExCHUSD<-matrix(0,1,7)
+DrUSD<-matrix(0,1,7)
+FrCH<-matrix(0,1,7)
+
+
+for (i in 1:7) {
+  ExCHUSD[1,i]<-SearchValue(CHFToUSD,Balanceo[i],"Exchange")
+  DrUSD[1,i]<-SearchValue(USrates,Balanceo[i],"3Y")
+  FrCH[1,i]<-SearchValue(CHrates,Balanceo[i],"3Y")
+}
+
+
+
 
 
