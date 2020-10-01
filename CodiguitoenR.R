@@ -231,6 +231,7 @@ for (i in 1:7) {
   DrUS[1,i]<-SearchValue(USrates,Balance[i],"3Y")
 }
 USLia<-LiaValue(100000,Duration,DrUS)
+USLiaConv<-LiaConv(Duration,DrUS) #Convexidad
 
 
 #Replicacion tabla Suiza
@@ -246,6 +247,7 @@ TotalLiaCH<-matrix(0,1,7)
 for (i in 1:7) {
     TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
 }
+CHLiaConv<-LiaConv(Duration,FrCH) #Convexidad
 
 
 #Replicacion tabla Inglesa
@@ -261,8 +263,7 @@ TotalLiaUK<-matrix(0,1,7)
 for (i in 1:7) {
   TotalLiaUK[i]<-UKLia[i]*ExGBPUSD[1,i]+USLia[i]
 }
-
-source("FuncionesparaR.R")
+UKLiaConv<-LiaConv(Duration,FrUK) #Convexidad
 
 #Replicacion tabla alemania
 
@@ -278,8 +279,12 @@ TotalLiaDE<-matrix(0,1,7)
 for (i in 1:7) {
   TotalLiaDE[i]<-DELia[i]*ExDEMUSD[1,i]+USLia[i]
 }
+DELiaConv<-LiaConv(Duration,FrDE) #Convexidad
 
-LiaConv(Duration,DrUS)
+# COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD
+
+LiaConv(Duration,FrDE)
+source("FuncionesparaR.R")
 
 
 
