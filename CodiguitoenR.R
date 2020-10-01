@@ -210,6 +210,9 @@ ValueofAyL(CHFToUSD,USrates[1,1],dim(CHFToUSD)[1])
 # Asumimos Bonos cupones ceros para los pasivos, con valor cara de
 # 100.000 en el caso domestico y 200.000 en el caso internacional.
 
+# Las tasas que vienen en nuestra BB.DD no son iguales a las que estan
+# presentes en este paper. 
+
 Balance<-c("1984-02-06","1984-05-16","1985-10-01","1986-02-06","1986-12-03","1987-02-25","1987-03-11")
 
 #Duraciones
@@ -222,11 +225,13 @@ for (i in 1:6) {
   aux=aux-Years[i]
 }
 
-#Extraccion tasas USD
+#Extraccion datos USD
 DrUS<-matrix(0,1,7)
 for (i in 1:7) {
   DrUS[1,i]<-SearchValue(USrates,Balance[i],"3Y")
 }
+USLia<-LiaValue(100000,Duration,DrUS)
+
 
 #Replicacion tabla Suiza
 ExCHFUSD<-matrix(0,1,7)
@@ -235,7 +240,12 @@ for (i in 1:7) {
   ExCHFUSD[1,i]<-SearchValue(CHFToUSD,Balance[i],"Exchange")
   FrCH[1,i]<-SearchValue(CHrates,Balance[i],"3Y")
 }
+CHLia<-LiaValue(200000,Duration,FrCH)
 
+TotalLiaCH<-matrix(0,1,7) 
+for (i in 1:7) {
+    TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
+}
 
 
 #Replicacion tabla Inglesa
@@ -245,7 +255,14 @@ for (i in 1:7) {
   ExGBPUSD[1,i]<-SearchValue(GBPToUSD,Balance[i],"Exchange")
   FrUK[1,i]<-SearchValue(UKrates,Balance[i],"3Y")
 }
+UKLia<-LiaValue(200000,Duration,FrUK)
 
+TotalLiaUK<-matrix(0,1,7) 
+for (i in 1:7) {
+  TotalLiaUK[i]<-UKLia[i]*ExGBPUSD[1,i]+USLia[i]
+}
+
+source("FuncionesparaR.R")
 
 #Replicacion tabla alemania
 
@@ -255,7 +272,15 @@ for (i in 1:7) {
   ExDEMUSD[1,i]<-SearchValue(DEMToUSD,Balance[i],"Exchange")
   FrDE[1,i]<-SearchValue(DErates,Balance[i],"3Y")
 }
+DELia<-LiaValue(200000,Duration,FrDE)
+
+TotalLiaDE<-matrix(0,1,7) 
+for (i in 1:7) {
+  TotalLiaDE[i]<-DELia[i]*ExDEMUSD[1,i]+USLia[i]
+}
 
 
-LiaValue(100000,Years,DrUS)
+
+
+
 
