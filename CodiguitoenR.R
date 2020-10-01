@@ -257,7 +257,5 @@ for (i in 1:7) {
 }
 
 
-
-
-
+LiaValue(100000,Años,DrUSD)
 
