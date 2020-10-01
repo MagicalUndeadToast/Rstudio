@@ -214,10 +214,12 @@ ExCHUSD<-matrix(0,1,7)
 DrUSD<-matrix(0,1,7)
 FrCH<-matrix(0,1,7)
 
+for (i in 1:7) {
+  DrUSD[1,i]<-SearchValue(USrates,Balanceo[i],"3Y")
+}
 
 for (i in 1:7) {
   ExCHUSD[1,i]<-SearchValue(CHFToUSD,Balanceo[i],"Exchange")
-  DrUSD[1,i]<-SearchValue(USrates,Balanceo[i],"3Y")
   FrCH[1,i]<-SearchValue(CHrates,Balanceo[i],"3Y")
 }
 
