@@ -52,3 +52,10 @@ Cuota <- function(MontoCredito,r,Meses){
   return(Aux)
 }
 
+# Buscador en el Data Frame.
+
+SearchValue <- function(DataFrame,Fecha,Tenor){
+  Aux=0
+  Aux=DataFrame[which(rownames(DataFrame)==Fecha),which(colnames(DataFrame)==Tenor)]
+  return(Aux)
+}
