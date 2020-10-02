@@ -217,7 +217,7 @@ ValueofAyL(CHFToUSD,USrates[1,1],dim(CHFToUSD)[1])
 
 Balance<-c("1984-02-06","1984-05-16","1985-10-01","1986-02-06","1986-12-03","1987-02-25","1987-03-11")
 
-#Duraciones
+# Duraciones de Macaulay.
 Days<-c(100, 503, 128, 300, 84, 14,0)
 Years<-Days/365
 Duration<-matrix(0,1,7)
@@ -227,7 +227,7 @@ for (i in 1:6) {
   aux=aux-Years[i]
 }
 
-#Extraccion datos USD
+# Extraccion datos USD.
 DrUS<-matrix(0,1,7)
 for (i in 1:7) {
   DrUS[1,i]<-SearchValue(USrates,Balance[i],"3Y")
@@ -238,7 +238,7 @@ USLiaConv<-LiaConv(Duration,DrUS) #Convexidad
 
 
 
-#Replicacion tabla Suiza
+# Replicacion tabla Suiza.
 ExCHFUSD<-matrix(0,1,7)
 FrCH<-matrix(0,1,7)
 ActivosDomesticosFr<-matrix(71610.52,1,7)
@@ -258,7 +258,7 @@ CHLiaConv<-LiaConv(Duration,FrCH) #Convexidad
 
 
 
-#Replicacion tabla Inglesa
+# Replicacion tabla Inglesa.
 ExGBPUSD<-matrix(0,1,7)
 FrUK<-matrix(0,1,7)
 for (i in 1:7) {
@@ -273,7 +273,7 @@ for (i in 1:7) {
 }
 UKLiaConv<-LiaConv(Duration,FrUK) #Convexidad
 
-#Replicacion tabla alemania
+# Replicacion tabla alemania.
 
 ExDEMUSD<-matrix(0,1,7)
 FrDE<-matrix(0,1,7)
@@ -289,7 +289,7 @@ for (i in 1:7) {
 }
 DELiaConv<-LiaConv(Duration,FrDE) #Convexidad
 
-# COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD
+# COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD.
 
 LiaConv(Duration,FrDE)
 LiaConv(Duration,DrUS)
@@ -301,7 +301,7 @@ LiaConv(2.5879,0.1176)
 
 
 
-## Se verifica que NO se cumple la condicion de segundo orden
+# Se verifica que NO se cumple la condicion de segundo orden
 
 x <- seq(0,6.8734/1.221,0.1)
 plot(x, 6.8734-1.221*x,main="Funcion Duraciones",
@@ -333,9 +333,9 @@ for (i in 1:length(x)){
 }
 
 
-## Asumiremos Duracion activos y pasivos domesticas iguales. --> Lo más cercano
-## a que se cumpla la condicion de segundo orden, donde se cumpliria si fuera
-## en vez de ser estrictamente mayor, solo fuera mayor o igual 
+# Asumiremos Duracion activos y pasivos domesticas iguales. --> Lo más cercano
+# a que se cumpla la condicion de segundo orden, donde se cumpliria si fuera
+# en vez de ser estrictamente mayor, solo fuera mayor o igual 
 
 ConveAF<-LiaConv(Duration[1],FrCH[1])
 ConveLF<-LiaConv(Duration[1],FrCH[1])
@@ -349,3 +349,32 @@ if(ConveAF>ConveLF && ConveAD>ConveLD){
 }
 
 
+# Comentarios Sobre el Codigo ---------------------------------------------
+
+# En esta seccion se plantean los problemas vistos en la replicacion del paper, especialmente en aquellos en donde vemos
+# que no se cumplen las condiciones propuestas por este mismo. Tambien se explicara el porque fue necesario aplicar
+# ingenieria inversa, asi como los problemas al momento de calzar los datos. Finalmente se plantea nuestra postura en el porque
+# es imposible replicar este paper con la informacion entregada y datos mencionados al menos de manera determinista, por lo que
+# nosotros pudimos captar a contraparte de que haya algun dato obviado por nosotros o por el paper.
+
+#XXX# Sobre la disponibilidad y fuente de los datos #XXX#
+
+# Uno de los primeros problemas con el que nos encontramos fue al momento de acceder a los datos y la fuente que hace
+# referencia el paper, siendo este el Banco Central de Israel. A pesar de la dificultad para acceder a los datos, al momento
+# de descargar los datos disponibles del banco central de israel, nos dimos cuenta que solo estaban disponibles los de los tipos
+# de cambio entre la moneda israeli y el resto de divisas, lo cual no supuso un mayor problema dado que aun asi logramos obtener
+# de forma implicita el valor de los tipos de cambio entre las divisas del paper. Sobre las tasas, no se encontro rastro de estas
+# en los datos disponibles por el banco, por lo que fue necesario usar los datos proporcionados por el profesor. Por otra parte,
+# los datos proporcionados por el banco tenian muchas fechas faltantes, incluso las usadas por el paper, por lo cual se decidio
+# utilizar en su totalidad los datos proporcionados por el profesor.
+
+#XXX# Sobre la estadistica descriptiva y los datos #XXX#
+
+# Otro de los grandes problemas encontrados en el paper, es que la estadistica descriptiva como se muestra en el paper no coincide
+# con la estadistica descriptiva DescriptiveStatistics obtenida por nosotros, nisiquiera al momento de usar los datos del Banco
+# Central de Israel. Este punto, sin embargo, se deja a la duda del paper, dado que puede ser un problema simplemente de capacidad
+# computacional de la epoca, en donde puedan haberse ahorrado calculos decimales para reducir el uso de memoria. Por otra parte,
+# sin embargo, hay datos que divergen mucho respecto a los presentados por el paper, como lo son especialmente para el caso de
+# Suiza. Estos cambios se pueden ver en las diferencias dadas por el paper y nuestras tablas de datos.
+
+#XXX# Sobre las carteras de activos y pasivos utilizados #XXX#
