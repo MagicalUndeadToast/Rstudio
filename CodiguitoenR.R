@@ -248,15 +248,42 @@ for (i in 1:7) {
 }
 
 CHLia<-LiaValue(200000,Duration,FrCH)
-DomesticAssetSuiza<-CHLia 
+
+
 
 TotalLiaCH<-matrix(0,1,7) 
 for (i in 1:7) {
     TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
 }
-CHLiaConv<-LiaConv(Duration,FrCH) #Convexidad
+ConveDom<-LiaConv(Duration,DrUS) #Convexidad
+ConveFor<-LiaConv(Duration,FrCH) #Convexidad
 
+#Tabla suiza datos iniciales
+SUIZA1<-rbind(ExCHFUSD, DrUS, FrCH)
+colnames(SUIZA1)<-Balance
+rownames(SUIZA1)<-c("US$/SF","r_d", "r_f")
+SUIZA1
 
+#Tabla Suiza Valores Presentes
+SUIZA2<-rbind(USLia,USLia,CHLia,CHLia,TotalLiaCH,TotalLiaCH)
+colnames(SUIZA2)<-Balance
+rownames(SUIZA2)<-c("US Assets (US$)","US Liabilities (US$)", "Swiss Assets (SF)","Swiss Liabilities (SF)", "Total Assets (US$)", "Total Liabilities (US$)")
+SUIZA2
+
+#Tabla Suiza Duracion
+SUIZA3<-rbind(Duration,Duration,Duration,Duration,Duration,Duration)
+colnames(SUIZA3)<-Balance
+rownames(SUIZA3)<-c("US Assets","US Liabilities", "Swiss Assets", "Swiss Liabilities", "Total Assets", "Total Liabilities")
+SUIZA3
+
+#Tabla Suiza Convexidad
+SUIZA4<-rbind(ConveDom,ConveDom,ConveFor,ConveFor)
+colnames(SUIZA4)<-Balance
+rownames(SUIZA4)<-c("US Assets","US Liabilities", "Swiss Assets", "Swiss Liabilities")
+SUIZA4
+
+#Tabla Suiza Pagos
+SUIZA5<-c(0)
 
 # Replicacion tabla Inglesa.
 ExGBPUSD<-matrix(0,1,7)
@@ -266,12 +293,41 @@ for (i in 1:7) {
   FrUK[1,i]<-SearchValue(UKrates,Balance[i],"3Y")
 }
 UKLia<-LiaValue(200000,Duration,FrUK)
+DomesticAssetUK<-UKLia 
 
 TotalLiaUK<-matrix(0,1,7) 
 for (i in 1:7) {
   TotalLiaUK[i]<-UKLia[i]*ExGBPUSD[1,i]+USLia[i]
 }
-UKLiaConv<-LiaConv(Duration,FrUK) #Convexidad
+ConveFor1<-LiaConv(Duration,FrUK) #Convexidad
+ConveDom1<-LiaConv(Duration,DrUS)
+
+#Tabla inglesa datos iniciales
+UK1<-rbind(ExGBPUSD, DrUS, FrUK)
+colnames(UK1)<-Balance
+rownames(UK1)<-c("US$/BP","r_d", "r_f")
+UK1
+
+#Tabla inglesa Valores Presentes
+UK2<-rbind(USLia,USLia,UKLia,UKLia,TotalLiaUK,TotalLiaUK)
+colnames(UK2)<-Balance
+rownames(UK2)<-c("US Assets (US$)","US Liabilities (US$)", "British Assets (BP)","British Liabilities (BP)", "Total Assets (US$)", "Total Liabilities (US$)")
+UK2
+
+#Tabla inglesa Duracion
+UK3<-rbind(Duration,Duration,Duration,Duration,Duration,Duration)
+colnames(UK3)<-Balance
+rownames(UK3)<-c("US Assets","US Liabilities", "British Assets", "British Liabilities", "Total Assets", "Total Liabilities")
+UK3
+
+#Tabla inglesa Convexidad
+UK4<-rbind(ConveDom1,ConveDom1,ConveFor1,ConveFor1)
+colnames(UK4)<-Balance
+rownames(UK4)<-c("US Assets","US Liabilities", "British Assets", "British Liabilities")
+UK4
+
+#Tabla inglesa Pagos
+UK5<-c(0)
 
 # Replicacion tabla alemania.
 
@@ -282,20 +338,45 @@ for (i in 1:7) {
   FrDE[1,i]<-SearchValue(DErates,Balance[i],"3Y")
 }
 DELia<-LiaValue(200000,Duration,FrDE)
+DomesticAssetDE<-DELia
 
 TotalLiaDE<-matrix(0,1,7) 
 for (i in 1:7) {
   TotalLiaDE[i]<-DELia[i]*ExDEMUSD[1,i]+USLia[i]
 }
-DELiaConv<-LiaConv(Duration,FrDE) #Convexidad
+ConveDom2<-LiaConv(Duration,DrUS) #Convexidad
+ConveFor2<-LiaConv(Duration,FrDE)
+
+#Tabla alemana datos iniciales
+ALEMANIA1<-rbind(ExDEMUSD, DrUS, FrDE)
+colnames(ALEMANIA1)<-Balance
+rownames(ALEMANIA1)<-c("US$/DM","r_d", "r_f")
+ALEMANIA1
+
+#Tabla alemana Valores Presentes
+ALEMANIA2<-rbind(USLia,USLia,DELia,DELia,TotalLiaDE,TotalLiaDE)
+colnames(ALEMANIA2)<-Balance
+rownames(ALEMANIA2)<-c("US Assets (US$)","US Liabilities (US$)", "German Assets (Dm)","German Liabilities (DM)", "Total Assets (US$)", "Total Liabilities (US$)")
+ALEMANIA2
+
+#Tabla alemana Duracion
+ALEMANIA3<-rbind(Duration,Duration,Duration,Duration,Duration,Duration)
+colnames(ALEMANIA3)<-Balance
+rownames(ALEMANIA3)<-c("US Assets","US Liabilities", "German Assets", "German Liabilities", "Total Assets", "Total Liabilities")
+ALEMANIA3
+
+#Tabla alemana Convexidad
+ALEMANIA4<-rbind(ConveDom2,ConveDom2,ConveFor2,ConveFor2)
+colnames(ALEMANIA4)<-Balance
+rownames(ALEMANIA4)<-c("US Assets","US Liabilities", "German Assets", "German Liabilities")
+ALEMANIA4
+
+#Tabla alemana Pagos
+ALEMANIA5<-c(0)
 
 # COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD.
 
-LiaConv(Duration,FrDE)
-LiaConv(Duration,DrUS)
-source("FuncionesparaR.R")
 
-LiaConv(2.5879,0.1176)
 
 
 
