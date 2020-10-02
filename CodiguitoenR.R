@@ -1,6 +1,3 @@
-
-#XXX# LEER PORFAVOR LA SECCION DE COMENTARIOS SOBRE EL PAPER, ES SUMAMENTE IMPORTANTE AL MOMENTO DE ANALIZAR NUESTROS AVANZES #XXX#
-
 # Clear Section -----------------------------------------------------------
 
 rm(list = ls()) #limpia variable
@@ -58,7 +55,7 @@ row.names(UKrates)<-as.Date(as.double(row.names(UKrates)),origin = "1899-12-30")
 row.names(DErates)<-as.Date(as.double(row.names(DErates)),origin = "1899-12-30")
 row.names(CHrates)<-as.Date(as.double(row.names(CHrates)),origin = "1899-12-30")
 row.names(USrates)<-as.Date(as.double(row.names(USrates)),origin = "1899-12-30")
-  
+
 # Tipos de Cambio.
 
 row.names(GBPToUSD)<-as.Date(as.double(row.names(GBPToUSD)),origin = "1899-12-30")
@@ -236,20 +233,26 @@ USLia<-LiaValue(100000,Duration,DrUS)
 USLiaConv<-LiaConv(Duration,DrUS) #Convexidad
 
 
+
+
 #Replicacion tabla Suiza
 ExCHFUSD<-matrix(0,1,7)
 FrCH<-matrix(0,1,7)
+ActivosDomesticosFr<-matrix(71610.52,1,7)
 for (i in 1:7) {
   ExCHFUSD[1,i]<-SearchValue(CHFToUSD,Balance[i],"Exchange")
   FrCH[1,i]<-SearchValue(CHrates,Balance[i],"3Y")
 }
+
 CHLia<-LiaValue(200000,Duration,FrCH)
+DomesticAssetSuiza<-CHLia 
 
 TotalLiaCH<-matrix(0,1,7) 
 for (i in 1:7) {
-    TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
+  TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
 }
 CHLiaConv<-LiaConv(Duration,FrCH) #Convexidad
+
 
 
 #Replicacion tabla Inglesa
@@ -283,14 +286,61 @@ for (i in 1:7) {
 }
 DELiaConv<-LiaConv(Duration,FrDE) #Convexidad
 
+# COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD
 
 LiaConv(Duration,FrDE)
+LiaConv(Duration,DrUS)
 source("FuncionesparaR.R")
 
-<<<<<<< HEAD
-LiaConv(3.7106,0.1551)
-=======
->>>>>>> parent of 6092784... Asdf
+LiaConv(2.5879,0.1176)
 
 
 
+
+
+## Se verifica que NO se cumple la condicion de segundo orden
+
+x <- seq(0,6.8734/1.221,0.1)
+plot(x, 6.8734-1.221*x,main="Funcion Duraciones",
+     ylab="D_af",
+     type="l",
+     col="blue",
+     xlim=c(0.21,6.8734/1.221),
+     ylim=c(0.26,6.8734))
+
+z<-6.8734-1.221*x
+
+auxz<-matrix(FrCH[1],1,length(z))
+ConveAF<-LiaConv(z,auxz)
+
+ConveLF<-LiaConv(Duration[1],FrCH[1])
+
+auxx<-matrix(DrUS[1],1,length(x))
+ConveAD<-LiaConv(x,auxx)
+
+ConveLD<-LiaConv(Duration[1],DrUS[1])
+
+
+for (i in 1:length(x)){
+  if(ConveAF[i]>ConveLF && ConveAD[i]>ConveLD){
+    print("Se cumple la condicion de segundo orden")
+  }else{
+    print("No se cumple la condicion de segundo orden")
+  }
+}
+
+
+## Asumiremos Duracion activos y pasivos domesticas iguales. --> Lo más cercano
+## a que se cumpla la condicion de segundo orden, donde se cumpliria si fuera
+## en vez de ser estrictamente mayor, solo fuera mayor o igual 
+
+ConveAF<-LiaConv(Duration[1],FrCH[1])
+ConveLF<-LiaConv(Duration[1],FrCH[1])
+ConveAD<-LiaConv(Duration[1],DrUS[1])
+ConveLD<-LiaConv(Duration[1],DrUS[1])
+
+if(ConveAF>ConveLF && ConveAD>ConveLD){
+  print("Se cumple la condicion de segundo orden")
+}else{
+  print("No se cumple la condicion de segundo orden")
+}
