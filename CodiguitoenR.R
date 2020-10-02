@@ -279,13 +279,14 @@ ProfitDom<-matrix(USAssets-USLia,1,7)
 #Tabla suiza datos iniciales
 SUIZA1<-rbind(ExCHFUSD, DrUS, FrCH)
 colnames(SUIZA1)<-Balance
-rownames(SUIZA1)<-c("US$/SF","r_d", "r_f")
+rownames(SUIZA1)<-c("USD$/CHF","r_d", "r_f")
 SUIZA1
 
 #Tabla Suiza Valores Presentes
 SUIZA2<-rbind(USLia,USLia,CHLia,CHLia,TotalLiaCH,TotalLiaCH)
 colnames(SUIZA2)<-Balance
-rownames(SUIZA2)<-c("US Assets (US$)","US Liabilities (US$)", "Swiss Assets (SF)","Swiss Liabilities (SF)", "Total Assets (US$)", "Total Liabilities (US$)")
+rownames(SUIZA2)<-c("US Assets (US$)","US Liabilities (US$)", "Swiss Assets (CH)","Swiss Liabilities (CH)", 
+                    "Total Assets (US$)", "Total Liabilities (US$)")
 SUIZA2
 
 #Tabla Suiza Duracion
@@ -341,13 +342,14 @@ ProfitDom1<-matrix(USAssets-USLia,1,7)
 #Tabla inglesa datos iniciales
 UK1<-rbind(ExGBPUSD, DrUS, FrUK)
 colnames(UK1)<-Balance
-rownames(UK1)<-c("US$/BP","r_d", "r_f")
+rownames(UK1)<-c("USD$/GBP","r_d", "r_f")
 UK1
 
 #Tabla inglesa Valores Presentes
 UK2<-rbind(USLia,USLia,UKLia,UKLia,TotalLiaUK,TotalLiaUK)
 colnames(UK2)<-Balance
-rownames(UK2)<-c("US Assets (US$)","US Liabilities (US$)", "British Assets (BP)","British Liabilities (BP)", "Total Assets (US$)", "Total Liabilities (US$)")
+rownames(UK2)<-c("US Assets (US$)","US Liabilities (US$)", "British Assets (UK)","British Liabilities (UK)",
+                 "Total Assets (US$)", "Total Liabilities (US$)")
 UK2
 
 #Tabla inglesa Duracion
@@ -404,13 +406,14 @@ ProfitFor2<-matrix(USAssets-USLia,1,7)
 #Tabla alemana datos iniciales
 ALEMANIA1<-rbind(ExDEMUSD, DrUS, FrDE)
 colnames(ALEMANIA1)<-Balance
-rownames(ALEMANIA1)<-c("US$/DM","r_d", "r_f")
+rownames(ALEMANIA1)<-c("USD$/DEM","r_d", "r_f")
 ALEMANIA1
 
 #Tabla alemana Valores Presentes
 ALEMANIA2<-rbind(USLia,USLia,DELia,DELia,TotalLiaDE,TotalLiaDE)
 colnames(ALEMANIA2)<-Balance
-rownames(ALEMANIA2)<-c("US Assets (US$)","US Liabilities (US$)", "German Assets (Dm)","German Liabilities (DM)", "Total Assets (US$)", "Total Liabilities (US$)")
+rownames(ALEMANIA2)<-c("US Assets (US$)","US Liabilities (US$)", "German Assets (DE)",
+                       "German Liabilities (DE)", "Total Assets (US$)", "Total Liabilities (US$)")
 ALEMANIA2
 
 #Tabla alemana Duracion
@@ -447,6 +450,13 @@ AlemaniaFinal
 
 # Se verifica que NO se cumple la condicion de segundo orden
 
+# Del exhibit 3 despejamos las formulas 13 y 14 a partir de las condiciones de primer orden,
+# igualandolas, de esto nos podemos dar cuenta que la duracion de los activos domesticos y la duracion
+# de los activos extranjeros siguen una ecuacion subordinada a una condicion de la recta con infinitas
+# combinaciones dentro de un segmento equivalente al siguiente.
+
+# x correspondiendo al activo domestico.
+
 x <- seq(0,6.8734/1.221,0.1)
 plot(x, 6.8734-1.221*x,main="Funcion Duraciones",
      ylab="D_af",
@@ -455,7 +465,15 @@ plot(x, 6.8734-1.221*x,main="Funcion Duraciones",
      xlim=c(0.21,6.8734/1.221),
      ylim=c(0.26,6.8734))
 
+# z correspondiendo al activo extranjero.
+
 z<-6.8734-1.221*x
+
+# En esta parte nos podemos dar cuenta que cualquier condicion de los puntos de la recta que no presente
+# una duracion igual a lo de los pasivos de su respectiva calaña, no cumplira la condicion de segundo orden,
+# dado que la convexidad de un bono zero cupon es directamente proporcional a su duracion. Por otra parte, la duracion
+# de los activos domesticos y extranjeros es inversamente proporciconal, por lo tanto cualquier pequeña variacion
+# provocara que la condicion no se cumpla en la otra categoria.
 
 auxz<-matrix(FrCH[1],1,length(z))
 ConveAF<-LiaConv(z,auxz)
@@ -476,6 +494,11 @@ for (i in 1:length(x)){
   }
 }
 
+# De este punto nos podemos dar cuenta que no se cumplira con esas condiciones. Asumir que los activos tambien 
+# corresponden a un bono zero cupon es lo mas "generoso" que podemos hacer, dado que como se puede comprobar en multiples
+# fuentes, el bono zero cupon posee la convexidad mas grande de estos instrumentos, dandole la mayor probabilidad de cumplir
+# la condicion de segundo orden, sin embargo, como se pudo probar, es imposible cumplirla en cualquier combinacion lineal de
+# activos en la cartera.
 
 # Asumiremos Duracion activos y pasivos domesticas iguales. --> Lo más cercano
 # a que se cumpla la condicion de segundo orden, donde se cumpliria si fuera
@@ -492,6 +515,13 @@ if(ConveAF>ConveLF && ConveAD>ConveLD){
   print("No se cumple la condicion de segundo orden")
 }
 
+# Esta es al condicion mas cercana, dado que necesitan solo un epsilon en cada activo para que este se cumpla, por otra parte
+# otra combinacion lineal necesitaria de un epsilon por la relacion, haciendolo mas grande.
+
+# Es de esta forma que logramos comprobar que la estrategia no se puede replicar, o en base a la informacion del paper y las
+# formulas utilizadas por este es inalcanzable, siendo la unica forma de poder cumplir con esto es que la tasa utilizada para
+# los activos realmente sea otra, lo que sin embargo implicaria que el paper no entrego la informacion de manera correcta o
+# obvio algunos puntos importantes, ademas de que no explicaria otros problemas, presentados a continuacion.
 
 # Corroboración Convexidad del Paper --------------------------------------
 # Datos del Paper
@@ -501,6 +531,10 @@ LiaConv(DuracionUSAssetPaper,TasaDomesticaPaper)
 
 # Se ve como la convexidad es de 3.7169, mientras que el paper dice que la
 # convexidad de los activos  domesticos es de 5.0729.
+
+# Esto implicaria que el paper utilizo otra tasa, o bien que no encontramos toda la informacion de este, sin embargo, implicaria
+# de todas formas que la estrategia internacional no es replicable, por lo que se justifica nuestra decision del paper de
+# utilizar activos iguales a los pasivos para la estrategia de replicacion (domestica).
 
 # Comentarios Sobre el Codigo ---------------------------------------------
 
