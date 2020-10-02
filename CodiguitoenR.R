@@ -459,3 +459,25 @@ if(ConveAF>ConveLF && ConveAD>ConveLD){
 # Suiza. Estos cambios se pueden ver en las diferencias dadas por el paper y nuestras tablas de datos.
 
 #XXX# Sobre las carteras de activos y pasivos utilizados #XXX#
+
+# En este punto nos dimos cuenta que el paper no presentaba nigun indicio de como habia simulado las carteras de activos y pasivos
+# para cada divisa, simplemente menciona que las simula, por lo que con ayuda del profesor, fue necesario para nosotros utilizar
+# ingenieria inversa para determinar como habian sido los instrumentos utilizados, su valor, el tipo de "bono" al que correspondian
+# asi como su duracion y convexidad. En este paso logramos darnos cuenta de los liabilitys de cada país correspondían a un bono
+# zero coupon, dado que sus duraciones coinciden con las fechas reales al vencimiento de estos, caracteristica importante de un
+# bono zero coupon, asimismo coincidian las convexidades bajo esta mecanica al utilizar los datos del paper, sin embargo,
+# al utilizar esta misma mecanica para los activos, resulto imposible obtener ningun resultado coherente, siendo por otra parte
+# imposible encontrar informacion en el paper de como fueron simulados estos, por lo cual nuevamente decidimos utilizar un bono
+# zero coupon, llevandanos a encontrar la incongruencia del siguiente punto.
+
+#XXX# Incongruencia en las condiciones de primer y segundo orden y los datos presentados por el paper #XXX#
+
+# Tal como se puede ver en la seccion especificamente dedicada a este punto, la convexidad de los asset no coincide con las
+# duraciones y formulas presentadas, de hecho, fallando para los exhibit 4 y 5 viendo que las convexidades vienen multiplicadas
+# por dos, asi mismo, como las convexidades entregadas para los assets, espcialmente para el asset domestico, no coinciden con
+# la forma que dice como se calculan a partir del paper, siendo especificamente de la 9 a la 12, tal como se demostro con
+# anterioridad. Es por esto, que como grupo hemos visto que la unica forma de que se de este tipo de inmunizacion, es que
+# se haya utilizado otra tasa para los activos domesticos, y que de tal forma se pueda mantener la condicionde segundo orden, dado
+# que de otra forma, no existe combinacion lineal de activos domesticos y extrangeros que cumpla la condicion de segundo orden al
+# mismo tiempo que las de primer orden. Dicho esto, es imposible, en base a la informacion entregada por el paper, replicar
+# esta simulacion o siquiera replicar la estrategia utilizada, presentando a parte todos los otros inconvenientes encontrados.
