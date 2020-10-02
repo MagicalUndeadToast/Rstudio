@@ -306,6 +306,9 @@ colnames(SUIZA5)<-Balance
 rownames(SUIZA5)<-c("International","Domestic")
 SUIZA5
 
+# TABLA EXHIBIT 3
+SuizaFinal<-rbind(SUIZA1,SUIZA2,SUIZA3,SUIZA4,SUIZA5)
+SuizaFinal
 
 # Replicacion tabla inglesa -----------------------------------------------
 
@@ -365,7 +368,9 @@ colnames(UK5)<-Balance
 rownames(UK5)<-c("International","Domestic")
 UK5
 
-
+# TABLA EXHIBIT 4
+UKFinal<-rbind(UK1,UK2,UK3,UK4,UK5)
+UKFinal
 
 
 # Replicacion tabla de Alemania -------------------------------------------
@@ -426,6 +431,9 @@ colnames(ALEMANIA5)<-Balance
 rownames(ALEMANIA5)<-c("International","Domestic")
 ALEMANIA5
 
+# TABLA EXHIBIT 5
+AlemaniaFinal<-rbind(ALEMANIA1,ALEMANIA2,ALEMANIA3,ALEMANIA4,ALEMANIA5)
+AlemaniaFinal
 
 
 
