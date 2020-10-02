@@ -1,4 +1,6 @@
 
+#XXX# LEER PORFAVOR LA SECCION DE COMENTARIOS SOBRE EL PAPER, ES SUMAMENTE IMPORTANTE AL MOMENTO DE ANALIZAR NUESTROS AVANZES #XXX#
+
 # Clear Section -----------------------------------------------------------
 
 rm(list = ls()) #limpia variable
@@ -281,11 +283,11 @@ for (i in 1:7) {
 }
 DELiaConv<-LiaConv(Duration,FrDE) #Convexidad
 
-# COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD
 
 LiaConv(Duration,FrDE)
 source("FuncionesparaR.R")
 
+LiaConv(3.7106,0.1551)
 
 
 
