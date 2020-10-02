@@ -243,12 +243,10 @@ ActivosDomesticosFr<-matrix(71610.52,1,7)
 for (i in 1:7) {
   ExCHFUSD[1,i]<-SearchValue(CHFToUSD,Balance[i],"Exchange")
   FrCH[1,i]<-SearchValue(CHrates,Balance[i],"3Y")
-  if(i>1){
-    ActivosDomesticosFr[1,i]<-ActivosDomesticosFr[1,i-1]*(1+DrUS[1,i])
-  }
 }
 
 CHLia<-LiaValue(200000,Duration,FrCH)
+DomesticAssetSuiza<-CHLia 
 
 TotalLiaCH<-matrix(0,1,7) 
 for (i in 1:7) {
@@ -256,10 +254,6 @@ for (i in 1:7) {
 }
 CHLiaConv<-LiaConv(Duration,FrCH) #Convexidad
 
-TOTALASSETS=ActivosDomesticosFr[1,1]+ExCHFUSD[1,1]*CHLia[1]
-TOTALASSETS
-TotalLiaCH[1]
-(463760.15-71610.52*x)/78320.78
 
 
 #Replicacion tabla Inglesa
