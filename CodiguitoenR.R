@@ -287,7 +287,10 @@ DELiaConv<-LiaConv(Duration,FrDE) #Convexidad
 LiaConv(Duration,FrDE)
 source("FuncionesparaR.R")
 
+<<<<<<< HEAD
 LiaConv(3.7106,0.1551)
+=======
+>>>>>>> parent of 6092784... Asdf
 
 
 
