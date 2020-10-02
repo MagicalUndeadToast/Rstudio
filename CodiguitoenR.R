@@ -1,4 +1,6 @@
 
+#XXX# LEER PORFAVOR LA SECCION DE COMENTARIOS SOBRE EL PAPER, ES SUMAMENTE IMPORTANTE AL MOMENTO DE ANALIZAR NUESTROS AVANZES #XXX#
+
 # Clear Section -----------------------------------------------------------
 
 rm(list = ls()) #limpia variable
