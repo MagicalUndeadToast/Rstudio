@@ -587,3 +587,8 @@ LiaConv(DuracionUSAssetPaper,TasaDomesticaPaper)
 # que de otra forma, no existe combinacion lineal de activos domesticos y extrangeros que cumpla la condicion de segundo orden al
 # mismo tiempo que las de primer orden. Dicho esto, es imposible, en base a la informacion entregada por el paper, replicar
 # esta simulacion o siquiera replicar la estrategia utilizada, presentando a parte todos los otros inconvenientes encontrados.
+
+DescriptiveStatistics
+SuizaFinal
+UKFinal
+AlemaniaFinal
