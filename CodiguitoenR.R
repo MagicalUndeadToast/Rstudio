@@ -198,10 +198,13 @@ DECHrates[,5]<-t(sapply(CHrates, max, na.rm = TRUE))
 row.names(DECHrates)<-c("CH1M","CH3M","CH6M","CH1Y","CH2Y","CH3Y","CH5Y")
 colnames(DECHrates)<-c("Mean","S.D.","Median","Minimun","Maximun")
 
-# Ahora procedemos a simular la tabla del paper.
+
+# Ahora procedemos a simular la tabla del paper. --------------------------
+
 
 DescriptiveStatistics <- rbind(DEGBPToUSD,DEDEMToUSD,DECHFToUSD,
                                DEUSrates,DEUKrates,DEDErates,DECHrates)
+DescriptiveStatistics
 
 # Replicacion del Paper ---------------------------------------------------
 
@@ -217,7 +220,10 @@ ValueofAyL(CHFToUSD,USrates[1,1],dim(CHFToUSD)[1])
 
 Balance<-c("1984-02-06","1984-05-16","1985-10-01","1986-02-06","1986-12-03","1987-02-25","1987-03-11")
 
-# Duraciones de Macaulay.
+
+# Duraciones de Macaulay --------------------------------------------------
+
+
 Days<-c(100, 503, 128, 300, 84, 14,0)
 Years<-Days/365
 Duration<-matrix(0,1,7)
@@ -227,18 +233,25 @@ for (i in 1:6) {
   aux=aux-Years[i]
 }
 
-# Extraccion datos USD.
+
+
+# Extraccion datos USD ---------------------------------------------------
+
+
 DrUS<-matrix(0,1,7)
 for (i in 1:7) {
   DrUS[1,i]<-SearchValue(USrates,Balance[i],"3Y")
 }
 USLia<-LiaValue(100000,Duration,DrUS)
+USAssets<-USLia
 USLiaConv<-LiaConv(Duration,DrUS) #Convexidad
 
 
 
 
-# Replicacion tabla Suiza.
+# Replicacion Tabla Suiza -------------------------------------------------
+
+
 ExCHFUSD<-matrix(0,1,7)
 FrCH<-matrix(0,1,7)
 ActivosDomesticosFr<-matrix(71610.52,1,7)
@@ -250,13 +263,18 @@ for (i in 1:7) {
 CHLia<-LiaValue(200000,Duration,FrCH)
 
 
-
+TotalAssetCH<-matrix(0,1,7)
 TotalLiaCH<-matrix(0,1,7) 
 for (i in 1:7) {
     TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
+    TotalAssetCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
 }
 ConveDom<-LiaConv(Duration,DrUS) #Convexidad
 ConveFor<-LiaConv(Duration,FrCH) #Convexidad
+ProfitFor<-matrix(TotalLiaCH-TotalAssetCH,1,7)
+ProfitDom<-matrix(USAssets-USLia,1,7)
+
+# INICIO TABLA DE SUIZA ---------------------------------------------------
 
 #Tabla suiza datos iniciales
 SUIZA1<-rbind(ExCHFUSD, DrUS, FrCH)
@@ -283,9 +301,14 @@ rownames(SUIZA4)<-c("US Assets","US Liabilities", "Swiss Assets", "Swiss Liabili
 SUIZA4
 
 #Tabla Suiza Pagos
-SUIZA5<-c(0)
+SUIZA5<-rbind(ProfitFor,ProfitDom)
+colnames(SUIZA5)<-Balance
+rownames(SUIZA5)<-c("International","Domestic")
+SUIZA5
 
-# Replicacion tabla Inglesa.
+
+# Replicacion tabla inglesa -----------------------------------------------
+
 ExGBPUSD<-matrix(0,1,7)
 FrUK<-matrix(0,1,7)
 for (i in 1:7) {
@@ -296,11 +319,21 @@ UKLia<-LiaValue(200000,Duration,FrUK)
 DomesticAssetUK<-UKLia 
 
 TotalLiaUK<-matrix(0,1,7) 
+TotalAssetsUK<-matrix(0,1,7) 
 for (i in 1:7) {
   TotalLiaUK[i]<-UKLia[i]*ExGBPUSD[1,i]+USLia[i]
+  TotalAssetsUK[i]<-UKLia[i]*ExGBPUSD[1,i]+USLia[i]
 }
 ConveFor1<-LiaConv(Duration,FrUK) #Convexidad
 ConveDom1<-LiaConv(Duration,DrUS)
+
+ProfitFor1<-matrix(TotalAssetsUK-TotalLiaUK,1,7)
+ProfitDom1<-matrix(USAssets-USLia,1,7)
+
+
+
+# INICIO TABLA INGLESA ----------------------------------------------------
+
 
 #Tabla inglesa datos iniciales
 UK1<-rbind(ExGBPUSD, DrUS, FrUK)
@@ -327,9 +360,16 @@ rownames(UK4)<-c("US Assets","US Liabilities", "British Assets", "British Liabil
 UK4
 
 #Tabla inglesa Pagos
-UK5<-c(0)
+UK5<-rbind(ProfitFor1,ProfitDom1)
+colnames(UK5)<-Balance
+rownames(UK5)<-c("International","Domestic")
+UK5
 
-# Replicacion tabla alemania.
+
+
+
+# Replicacion tabla de Alemania -------------------------------------------
+
 
 ExDEMUSD<-matrix(0,1,7)
 FrDE<-matrix(0,1,7)
@@ -341,11 +381,20 @@ DELia<-LiaValue(200000,Duration,FrDE)
 DomesticAssetDE<-DELia
 
 TotalLiaDE<-matrix(0,1,7) 
+TotalAssetsDE<-matrix(0,1,7)
 for (i in 1:7) {
   TotalLiaDE[i]<-DELia[i]*ExDEMUSD[1,i]+USLia[i]
+  TotalAssetsDE[i]<-DELia[i]*ExDEMUSD[1,i]+USLia[i]
 }
 ConveDom2<-LiaConv(Duration,DrUS) #Convexidad
 ConveFor2<-LiaConv(Duration,FrDE)
+ProfitDom2<-matrix(TotalAssetsDE-TotalLiaDE,1,7)
+ProfitFor2<-matrix(USAssets-USLia,1,7)
+
+
+
+# INICIO TABLA ALEMANA ----------------------------------------------------
+
 
 #Tabla alemana datos iniciales
 ALEMANIA1<-rbind(ExDEMUSD, DrUS, FrDE)
@@ -372,14 +421,20 @@ rownames(ALEMANIA4)<-c("US Assets","US Liabilities", "German Assets", "German Li
 ALEMANIA4
 
 #Tabla alemana Pagos
-ALEMANIA5<-c(0)
-
-# COMENTAR SOBRE LA DIFERENCIA DE LA CONVEXIDAD.
-
-
-
+ALEMANIA5<-rbind(ProfitFor2,ProfitDom2)
+colnames(ALEMANIA5)<-Balance
+rownames(ALEMANIA5)<-c("International","Domestic")
+ALEMANIA5
 
 
+
+
+
+
+
+
+
+# Verificacion Condicion de segundo orden ---------------------------------
 
 
 # Se verifica que NO se cumple la condicion de segundo orden
@@ -429,6 +484,15 @@ if(ConveAF>ConveLF && ConveAD>ConveLD){
   print("No se cumple la condicion de segundo orden")
 }
 
+
+# Corroboración Convexidad del Paper --------------------------------------
+# Datos del Paper
+DuracionUSAssetPaper<-2.5879
+TasaDomesticaPaper<-0.1176
+LiaConv(DuracionUSAssetPaper,TasaDomesticaPaper)
+
+# Se ve como la convexidad es de 3.7169, mientras que el paper dice que la
+# convexidad de los activos  domesticos es de 5.0729.
 
 # Comentarios Sobre el Codigo ---------------------------------------------
 
