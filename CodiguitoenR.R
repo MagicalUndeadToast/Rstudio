@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> ec995784bb169857cf46e351f1702e1c25c57c36
 # Clear Section -----------------------------------------------------------
 
 rm(list = ls()) #limpia variable
@@ -56,7 +59,7 @@ row.names(UKrates)<-as.Date(as.double(row.names(UKrates)),origin = "1899-12-30")
 row.names(DErates)<-as.Date(as.double(row.names(DErates)),origin = "1899-12-30")
 row.names(CHrates)<-as.Date(as.double(row.names(CHrates)),origin = "1899-12-30")
 row.names(USrates)<-as.Date(as.double(row.names(USrates)),origin = "1899-12-30")
-  
+
 # Tipos de Cambio.
 
 row.names(GBPToUSD)<-as.Date(as.double(row.names(GBPToUSD)),origin = "1899-12-30")
@@ -250,7 +253,7 @@ DomesticAssetSuiza<-CHLia
 
 TotalLiaCH<-matrix(0,1,7) 
 for (i in 1:7) {
-    TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
+  TotalLiaCH[i]<-CHLia[i]*ExCHFUSD[1,i]+USLia[i]
 }
 CHLiaConv<-LiaConv(Duration,FrCH) #Convexidad
 
@@ -310,6 +313,7 @@ plot(x, 6.8734-1.221*x,main="Funcion Duraciones",
      ylim=c(0.26,6.8734))
 
 z<-6.8734-1.221*x
+<<<<<<< HEAD
 
 auxz<-matrix(FrCH[1],1,length(z))
 ConveAF<-LiaConv(z,auxz)
@@ -345,5 +349,40 @@ if(ConveAF>ConveLF && ConveAD>ConveLD){
 }else{
   print("No se cumple la condicion de segundo orden")
 }
+=======
+
+auxz<-matrix(FrCH[1],1,length(z))
+ConveAF<-LiaConv(z,auxz)
+
+ConveLF<-LiaConv(Duration[1],FrCH[1])
+
+auxx<-matrix(DrUS[1],1,length(x))
+ConveAD<-LiaConv(x,auxx)
+
+ConveLD<-LiaConv(Duration[1],DrUS[1])
 
 
+for (i in 1:length(x)){
+  if(ConveAF[i]>ConveLF && ConveAD[i]>ConveLD){
+    print("Se cumple la condicion de segundo orden")
+  }else{
+    print("No se cumple la condicion de segundo orden")
+  }
+}
+
+
+## Asumiremos Duracion activos y pasivos domesticas iguales. --> Lo más cercano
+## a que se cumpla la condicion de segundo orden, donde se cumpliria si fuera
+## en vez de ser estrictamente mayor, solo fuera mayor o igual 
+>>>>>>> ec995784bb169857cf46e351f1702e1c25c57c36
+
+ConveAF<-LiaConv(Duration[1],FrCH[1])
+ConveLF<-LiaConv(Duration[1],FrCH[1])
+ConveAD<-LiaConv(Duration[1],DrUS[1])
+ConveLD<-LiaConv(Duration[1],DrUS[1])
+
+if(ConveAF>ConveLF && ConveAD>ConveLD){
+  print("Se cumple la condicion de segundo orden")
+}else{
+  print("No se cumple la condicion de segundo orden")
+}
